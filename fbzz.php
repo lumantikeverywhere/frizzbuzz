@@ -29,7 +29,7 @@
          * constructor
          * $min: a redefined value of $this->min
          * $max: a redefined value of $this->max
-         * $delay: a redefined value of $this->delay
+         * $applyBazz: to go with bazz for consecutive occurance of frizz/buzz
          **/
         public function __construct($min=false, $max=false, $applyBazz=null){
             if (is_int($min)) $this->min = $min;
@@ -39,7 +39,6 @@
         
         /**
          * Prepare an array to be Frizz and Buzz output
-         * $current: specific single integer, default: false ( prepare from $this->min up to $this->max, not for single integer )
          * 
          **/
         public function goFrizzBuzz(){
