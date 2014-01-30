@@ -2,10 +2,10 @@
     class fbzz{
         /**
          * starting positive integer number
-         * default: 0, must output "0 1 2 Frizz 4 Buzz" 
+         * default: 1, must output "1 2 Frizz 4 Buzz" 
          *
          **/
-        public $min=0;
+        public $min=1;
         
         
         /**
@@ -16,16 +16,14 @@
         public $max = 100;
         
         /**
-         * a delay (in seconds ) between increament. This will be applied in javascript call
-         * default: 0, no delay, no javascript
-         *
-         **/
-        public $delay = 0;
-        
-        /**
          * Static text for Frizz, Buzz And Buzz
          **/
-        $this->zz = array('zz3'=>'Frizz', 'zz5'=>'Buzz', 'con'=>'Bazz');
+        public $zz = array('zz3'=>'Frizz', 'zz5'=>'Buzz', 'con'=>'Bazz');
+        
+        /**
+         * Apply 'Bazz' for consecutive Frizz Buzz or Buzz Frizz
+         */
+        public $applybazz = false;
         
         /**
          * constructor
@@ -33,11 +31,10 @@
          * $max: a redefined value of $this->max
          * $delay: a redefined value of $this->delay
          **/
-        public function __construct($min, $max, $delay=0){
-            $this->min = $min;
-            $this->max = $min;
-            
-            $this->delay = $delay;
+        public function __construct($min=false, $max=false, $applyBazz=null){
+            if (is_int($min)) $this->min = $min;
+            if (is_int($max)) $this->max = $max;
+            if (is_bool($applyBazz)) $this->applybazz = $applyBazz;
         }
         
         /**
@@ -51,7 +48,7 @@
             $range = range($this->min, $this->max);
             
             foreach($range as $key=>$integer){
-                $result[] = $this->_frizzOrBuzz($integer);
+                $result[] = $this->_frizzOrBuzz($integer, ($this->applybazz ? $result : false));
             }
             return $result;
         }
@@ -67,12 +64,19 @@
         /**
          * Evaluate whether a specified $integer falling n Frizz or Buzz or The Integer it self
          * $integer: integer
+         * $bazz: an array for already get
          * 
          **/
-        private function _frizzOrBuzz($integer, $applyBazz=false){
-            if ($applyBazz) return $this->zz['zzcon'];
-            elseif ($integer % 3) return $this->zz['zz3'];
-            elseif ($integer % 5) return $this->zz['zz5'];
+        private function _frizzOrBuzz($integer, $bazz=false){
+            if ($integer == 0) return $integer;
+            elseif ( ($integer % 3) == 0 ) return $this->zz['zz3'];
+            elseif ( ($integer % 5) == 0 ) return $this->zz['zz5'];
+            elseif ( $bazz && is_array($bazz) && (count($bazz) > 1) && 
+                !is_int($bazz[count($bazz)-1]) &&
+                !is_int($bazz[count($bazz)-2]) &&
+                ($bazz[count($bazz)-1] != $this->zz['con']) &&
+                ($bazz[count($bazz)-2] != $this->zz['con'])
+            ) return $this->zz['con'];
             else return $integer;
         }
     }
