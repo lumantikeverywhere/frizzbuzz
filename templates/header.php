@@ -15,9 +15,9 @@
             function verify(){
                 oMin = document.getElementById('min');
                 oMax = document.getElementById('max');
-                if ( (typeof(oMin.value) == 'number') || (typeof(oMax.value) == 'number') ||
-                     (oMin.value < 1) || (oMax.value < 1) ||
-                     oMin.value.match(/[^\d]+/g) || oMax.value.match(/[^\d]+/g) || (oMin.value > oMax.value) )
+                if ( oMin.value.match(/[^\d]+/g) || oMax.value.match(/[^\d]+/g) ||
+                    (parseInt(oMin.value) < 1) || (parseInt(oMax.value) < 1) ||
+                    (parseInt(oMin.value) > parseInt(oMax.value)) )
                 {
                     alert("'Minimum/Maximum' value must:\n -Greater than 0\n- In integer type (not contains any thousand or decimal mark)\n\n'Minimum' value must less or equal to 'Maximum' value");
                     return false;
